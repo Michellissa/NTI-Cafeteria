@@ -209,10 +209,15 @@ function App() {
 useEffect(() => {
     const fetchTransport = async () => {
       try {
-        const response = await fetch('/api/sl');
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+
+        const response = await fetch('/api/sl', { signal: controller.signal });
+        clearTimeout(timeout);
         
         if (response.ok) {
           const data = await response.json();
+          console.log('Response status:', response.status, 'Data keys:', Object.keys(data));
 
           if (data?.ResponseData?.Buses?.length > 0) {
             const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
@@ -232,6 +237,8 @@ useEffect(() => {
             });
             console.log("SL API Works! Buses:", filteredBuses.length);
             return;
+          } else if (data?.error) {
+            console.log("SL API Error:", data.error);
           }
         }
       } catch (e) {
