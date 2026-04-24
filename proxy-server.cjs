@@ -3,13 +3,15 @@ const axios = require('axios');
 
 const app = express();
 const PORT = 3000;
+const SL_API_KEY = '5455697ff26b484c8d9f6a94b0069a8d';
+const SITE_ID = '9522';
 
 app.get('/api/sl', async (req, res) => {
   try {
     const response = await axios.get('https://api.sl.se/api2/realtimedeparturesV4.json', {
       params: {
-        key: '9c4ec98e1f5242f1be14e1b111e1ed77',
-        siteid: '9522',
+        key: SL_API_KEY,
+        siteid: SITE_ID,
         timewindow: 60
       }
     });
