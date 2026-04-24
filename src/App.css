@@ -9,13 +9,13 @@
  */
 
 :root {
-  --color-primary: #B1068C;
-  --color-accent: #4B0082;
+  --color-primary: #b1068c;
+  --color-accent: #4b0082;
   --color-card-bg: #ffffff;
   --color-text: #222222;
   --color-text-light: #ffffff;
-  --color-gradient: linear-gradient(34deg, #4B0082 1%, #B1068C 56%);
-  --color-primary-dark: #4B0082;
+  --color-gradient: linear-gradient(34deg, #4b0082 1%, #b1068c 56%);
+  --color-primary-dark: #4b0082;
   --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.25);
   --border-highlight: 3px solid var(--color-primary);
 }
@@ -48,7 +48,7 @@ body {
   width: 100%;
   height: 100vh;
   z-index: -1;
-  background: linear-gradient(34deg, #4B0082 1%, #B1068C 56%);
+  background: linear-gradient(34deg, #4b0082 1%, #b1068c 56%);
   overflow: hidden;
 }
 
@@ -124,43 +124,83 @@ body {
 }
 
 @keyframes float1 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(30px, 40px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(30px, 40px);
+  }
 }
 
 @keyframes float2 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-40px, 30px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-40px, 30px);
+  }
 }
 
 @keyframes float3 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(20px, -30px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, -30px);
+  }
 }
 
 @keyframes float4 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-25px, -40px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-25px, -40px);
+  }
 }
 
 @keyframes float5 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(35px, 25px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(35px, 25px);
+  }
 }
 
 @keyframes float6 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-30px, 35px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-30px, 35px);
+  }
 }
 
 @keyframes float7 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(40px, -25px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(40px, -25px);
+  }
 }
 
 @keyframes float8 {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(-20px, 30px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-20px, 30px);
+  }
 }
 
 #root,
@@ -201,7 +241,6 @@ body {
   background: var(--color-primary);
   border-bottom: 3px solid var(--color-primary);
   flex-shrink: 0;
-  
 }
 
 .header-title {
@@ -218,6 +257,12 @@ body {
   color: var(--color-text-light);
   font-variant-numeric: tabular-nums;
   letter-spacing: 2px;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 0 15px rgba(184, 151, 99, 0.4),
+    inset 0 0 10px rgba(184, 151, 99, 0.2);
 }
 
 /* ═══════════════════════════════════════
@@ -289,7 +334,7 @@ body {
 }
 
 .weather-temp::after {
-  content: '°';
+  content: "°";
   font-size: 1.5rem;
 }
 
@@ -337,7 +382,7 @@ body {
 }
 
 .forecast-title::before {
-  content: '';
+  content: "";
   width: 4px;
   height: 16px;
   background: var(--color-accent);
@@ -357,7 +402,7 @@ body {
   padding: 0.6rem 0.8rem;
   background: white;
   border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   font-size: 0.85rem;
 }
 
@@ -562,7 +607,7 @@ body {
 }
 
 .transport-title::before {
-  content: '';
+  content: "";
   width: 4px;
   height: 16px;
   background: var(--color-accent);
@@ -584,7 +629,7 @@ body {
   padding: 0.6rem 0.8rem;
   background: white;
   border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   font-size: 0.85rem;
 }
 
@@ -702,22 +747,28 @@ body {
 .bubble {
   position: absolute;
   top: -100px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.95),
+    rgba(255, 255, 255, 0.7)
+  );
   border-radius: 50%;
   animation: fall 8s linear infinite;
-  box-shadow: 0 0 20px rgba(255,255,255,0.9), inset 0 0 10px rgba(255,255,255,0.5);
+  box-shadow:
+    0 0 20px rgba(255, 255, 255, 0.9),
+    inset 0 0 10px rgba(255, 255, 255, 0.5);
   z-index: 9999;
-  border: 2px solid rgba(255,255,255,0.8);
+  border: 2px solid rgba(255, 255, 255, 0.8);
 }
 
 .bubble::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 20%;
   left: 20%;
   width: 30%;
   height: 30%;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 50%;
 }
 

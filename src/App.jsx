@@ -19,7 +19,7 @@ function Clock() {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
-        })
+        }),
       );
     };
     updateClock();
@@ -90,11 +90,11 @@ function App() {
   const [newsData, setNewsData] = useState([]);
 
   const [mealData, setMealData] = useState({
-    monday: { main: "", side: "", dessert: "", vegetarian: "" },
-    tuesday: { main: "", side: "", dessert: "", vegetarian: "" },
-    wednesday: { main: "", side: "", dessert: "", vegetarian: "" },
-    thursday: { main: "", side: "", dessert: "", vegetarian: "" },
-    friday: { main: "", side: "", dessert: "", vegetarian: "" },
+    monday: { main: "" },
+    tuesday: { main: "" },
+    wednesday: { main: "" },
+    thursday: { main: "" },
+    friday: { main: "" },
   });
 
   const [selectedMealDay, setSelectedMealDay] = useState(() => {
@@ -206,36 +206,11 @@ function App() {
       }
 
       const mockMenu = {
-        monday: {
-          main: "Köttbullar med potatis",
-          side: "Brunsås",
-          dessert: "Lingonsylt",
-          vegetarian: "Veggkötbullar",
-        },
-        tuesday: {
-          main: "Fish & Chips",
-          side: "Remouladsås",
-          dessert: "Ärter",
-          vegetarian: "Tofu fish",
-        },
-        wednesday: {
-          main: "Pasta Bolognese",
-          side: "Parmesan",
-          dessert: "Vitlöksbröd",
-          vegetarian: "Vegansk pasta",
-        },
-        thursday: {
-          main: "Kycklinggryta",
-          side: "Ris",
-          dessert: "Sallad",
-          vegetarian: "Gröncurry",
-        },
-        friday: {
-          main: "Tacos",
-          side: "Nachos",
-          dessert: "Gräddfil",
-          vegetarian: "Quorn tacos",
-        },
+        monday: { main: "Köttbullar med potatis" },
+        tuesday: { main: "Fish & Chips" },
+        wednesday: { main: "Pasta Bolognese" },
+        thursday: { main: "Kycklinggryta" },
+        friday: { main: "Tacos" },
       };
       setMealData(mockMenu);
     };
@@ -257,31 +232,43 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
-useEffect(() => {
+  useEffect(() => {
     const fetchTransport = async () => {
       try {
-        const response = await fetch('/api/sl');
-        
+        const response = await fetch("/api/sl");
+
         if (response.ok) {
           const data = await response.json();
           const deps = data?.departures || [];
-          console.log('Total departures:', deps.length);
+          console.log("Total departures:", deps.length);
 
           if (deps.length > 0) {
             // Filter only buses
-            const onlyBuses = deps.filter(d => d.line?.transport_mode === 'BUS');
-            
+            const onlyBuses = deps.filter(
+              (d) => d.line?.transport_mode === "BUS",
+            );
+
             // Important lines for Huddinge Sjukhus
-            const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
-            
+            const importantLines = [
+              "172",
+              "703",
+              "704",
+              "705",
+              "713",
+              "726",
+              "740",
+              "742",
+              "865",
+            ];
+
             const filtered = onlyBuses
-              .filter(d => importantLines.includes(d.line?.designation))
+              .filter((d) => importantLines.includes(d.line?.designation))
               .slice(0, 15)
-              .map(d => ({
-                lineNumber: d.line?.designation || '?',
-                destination: d.destination || '?',
-                plannedTime: d.display || '?',
-                status: d.realtime ? 'On-Time' : 'Expected'
+              .map((d) => ({
+                lineNumber: d.line?.designation || "?",
+                destination: d.destination || "?",
+                plannedTime: d.display || "?",
+                status: d.realtime ? "On-Time" : "Expected",
               }));
 
             setTransportData({
@@ -289,7 +276,7 @@ useEffect(() => {
               lastUpdated: new Date().toISOString(),
               error: null,
             });
-            console.log('Huddinge Sjukhus buses:', filtered.length);
+            console.log("Huddinge Sjukhus buses:", filtered.length);
             return;
           }
         }
@@ -297,7 +284,10 @@ useEffect(() => {
         console.log("Error:", e.message);
       }
 
-      setTransportData(prev => ({ ...prev, error: "Kunde inte hämta busstider" }));
+      setTransportData((prev) => ({
+        ...prev,
+        error: "Kunde inte hämta busstider",
+      }));
     };
 
     fetchTransport();
@@ -311,28 +301,28 @@ useEffect(() => {
       <Bubbles />
       <div className="dashboard">
         <header className="dashboard-header">
-        <h1 className="header-title">NTI Södertörn</h1>
-        <Clock />
-      </header>
+          <h1 className="header-title">NTI Södertörn</h1>
+          <Clock />
+        </header>
 
-      <main className="dashboard-grid">
-        <section className="column column-weather">
-          <WeatherModule data={weatherData} />
-        </section>
+        <main className="dashboard-grid">
+          <section className="column column-weather">
+            <WeatherModule data={weatherData} />
+          </section>
 
-        <section className="column column-news">
-          <NewsModule data={newsData} />
-        </section>
+          <section className="column column-news">
+            <NewsModule data={newsData} />
+          </section>
 
-        <section className="column column-meals">
-          <SchoolMealsModule data={mealData} selectedDay={selectedMealDay} />
-        </section>
+          <section className="column column-meals">
+            <SchoolMealsModule data={mealData} selectedDay={selectedMealDay} />
+          </section>
 
-        <section className="column column-transport">
-          <TransportModule data={transportData} />
-        </section>
-      </main>
-    </div>
+          <section className="column column-transport">
+            <TransportModule data={transportData} />
+          </section>
+        </main>
+      </div>
     </>
   );
 }
@@ -455,18 +445,6 @@ function SchoolMealsModule({ data, selectedDay }) {
           <span className="category-label">Main</span>
           <span className="category-value">{currentMenu.main}</span>
         </div>
-        <div className="meal-category">
-          <span className="category-label">Side</span>
-          <span className="category-value">{currentMenu.side}</span>
-        </div>
-        <div className="meal-category">
-          <span className="category-label">Dessert</span>
-          <span className="category-value">{currentMenu.dessert}</span>
-        </div>
-        <div className="meal-category">
-          <span className="category-label">Vegetarian Option</span>
-          <span className="category-value">{currentMenu.vegetarian}</span>
-        </div>
       </div>
     </div>
   );
@@ -540,11 +518,11 @@ function formatFoodAPI(data) {
     Friday: "friday",
   };
   const formatted = {
-    monday: { main: "", side: "", dessert: "", vegetarian: "" },
-    tuesday: { main: "", side: "", dessert: "", vegetarian: "" },
-    wednesday: { main: "", side: "", dessert: "", vegetarian: "" },
-    thursday: { main: "", side: "", dessert: "", vegetarian: "" },
-    friday: { main: "", side: "", dessert: "", vegetarian: "" },
+    monday: { main: "" },
+    tuesday: { main: "" },
+    wednesday: { main: "" },
+    thursday: { main: "" },
+    friday: { main: "" },
   };
 
   data.days?.forEach((day) => {
@@ -553,13 +531,9 @@ function formatFoodAPI(data) {
       const mainMeal = day.meals.find(
         (m) => m.type === "Meat" || m.type === "Chicken" || m.type === "Fish",
       );
-      const vegetarianMeal = day.meals.find((m) => m.type === "Vegetarian");
 
       formatted[dayKey] = {
         main: mainMeal?.description || "",
-        side: "",
-        dessert: "",
-        vegetarian: vegetarianMeal?.description || "",
       };
     }
   });
