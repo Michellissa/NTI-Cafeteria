@@ -293,7 +293,7 @@ body {
   display: flex;
   flex-direction: column;
   border-top: 5px solid var(--color-accent);
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .module-title {
@@ -995,7 +995,7 @@ body {
   background: #fff;
   border-radius: 8px;
   border-left: 4px solid var(--color-primary);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .admin-news-title {
@@ -1023,7 +1023,7 @@ body {
   background: #fff;
   border-radius: 8px;
   border-left: 4px solid var(--color-primary);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .news-item-title {
@@ -1046,7 +1046,7 @@ body {
 }
 
 .sick-leave-section {
-  margin-top: 20rem;
+  margin-top: 2rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   background: #e6e6e6;
