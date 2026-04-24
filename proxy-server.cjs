@@ -20,11 +20,22 @@ app.use((req, res, next) => {
 app.get('/api/sl', async (req, res) => {
   console.log('Trafiklab API called');
   try {
-    // SiteId 9522 = Huddinge Sjukhus
-    const response = await axios.get(`${BASE_URL}/sites/9522/departures`, {
-      params: {
-        timelimit: 60
-      },
+    // First get all sites with stop areas to find Huddinge Sjukhus
+    const sitesResponse = await axios.get(`${BASE_URL}/sites`, {
+      params: { expand: true, filter: 'Huddinge' },
+      timeout: 15000
+    });
+    
+    const huddingeSite = sitesResponse.data?.sites?.find(s => 
+      s.name?.toLowerCase().includes('huddinge sjukhus')
+    );
+    
+    console.log('Found site:', huddingeSite?.name, 'id:', huddingeSite?.siteId);
+    
+    // Get departures from the specific site
+    const siteId = huddingeSite?.siteId || 9522;
+    const response = await axios.get(`${BASE_URL}/sites/${siteId}/departures`, {
+      params: { timelimit: 60 },
       timeout: 15000
     });
     console.log('Trafiklab success:', response.data?.departures?.length || 0, 'departures');
