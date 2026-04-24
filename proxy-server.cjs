@@ -47,7 +47,13 @@ app.post('/api/data', (req, res) => {
   const currentData = loadData();
   const newData = req.body;
   
-  if (newData.news) currentData.news = newData.news;
+  if (newData.news) {
+    if (Array.isArray(newData.news)) {
+      currentData.news = [...currentData.news, ...newData.news];
+    } else {
+      currentData.news = newData.news;
+    }
+  }
   if (newData.teachers) currentData.teachers = newData.teachers;
   
   saveData(currentData);

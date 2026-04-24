@@ -27,11 +27,15 @@ export default function AdminDashboard() {
     if (!newsTitle || !newsText) return;
     setSaving(true);
     try {
+      const res = await fetch("/api/data");
+      const data = await res.json();
+      const existingNews = data.news || [];
+      
       await fetch("/api/data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          news: [{ title: newsTitle, text: newsText, date: new Date().toISOString() }],
+          news: [...existingNews, { title: newsTitle, text: newsText, date: new Date().toISOString() }],
         }),
       });
       setNewsTitle("");
