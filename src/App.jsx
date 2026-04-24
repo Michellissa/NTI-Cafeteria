@@ -208,30 +208,58 @@ function App() {
 
 useEffect(() => {
     const fetchTransport = async () => {
-      // Use mock data for now - shows correct buses from Huddinge Sjukhus
-      const mockBuses = [
-        { lineNumber: "172", destination: "Skarpnäck", plannedTime: "4 min", status: "On-Time" },
-        { lineNumber: "172", destination: "Hallunda", plannedTime: "8 min", status: "On-Time" },
-        { lineNumber: "703", destination: "Sörskogen", plannedTime: "3 min", status: "On-Time" },
-        { lineNumber: "704", destination: "Flemingsberg", plannedTime: "6 min", status: "On-Time" },
-        { lineNumber: "705", destination: "Solgård", plannedTime: "5 min", status: "On-Time" },
-        { lineNumber: "713", destination: "Tumba", plannedTime: "12 min", status: "Expected" },
-        { lineNumber: "726", destination: "Fridhemsplan", plannedTime: "15 min", status: "On-Time" },
-        { lineNumber: "740", destination: "Skärholmen", plannedTime: "2 min", status: "On-Time" },
-        { lineNumber: "742", destination: "Huddinge station", plannedTime: "5 min", status: "On-Time" },
-        { lineNumber: "865", destination: "Handen", plannedTime: "10 min", status: "Expected" },
-      ];
+      try {
+        const response = await fetch('/api/sl');
+        
+        if (response.ok) {
+          const data = await response.json();
+          const deps = data?.departures || [];
+          console.log('Total departures:', deps.length);
 
-      setTransportData({
-        busDepartures: mockBuses,
-        lastUpdated: new Date().toISOString(),
-        error: null,
-      });
-      
-      console.log("Mock Huddinge Sjukhus buses loaded:", mockBuses.length);
+          if (deps.length > 0) {
+            // FILTER 1: Only BUS (not trains)
+            const onlyBuses = deps.filter(d => d.transport_mode === 'BUS');
+            console.log('Bus departures:', onlyBuses.length);
+
+            // FILTER 2: Only important lines from Huddinge Sjukhus
+            const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
+            
+            const filtered = onlyBuses
+              .filter(d => {
+                const lineNum = d.line?.designation || '';
+                return importantLines.some(l => lineNum === l);
+              })
+              .slice(0, 15)
+              .map(d => ({
+                lineNumber: d.line?.designation || '?',
+                destination: d.destination || '?',
+                plannedTime: d.display || (d.expected_arrival ? d.expected_arrival.substring(11, 16) : '?'),
+                status: d.realtime ? 'On-Time' : 'Expected',
+              }));
+
+            console.log('Filtered buses:', filtered.length);
+            console.log('Bus lines:', filtered.map(b => b.lineNumber).join(', '));
+
+            if (filtered.length > 0) {
+              setTransportData({
+                busDepartures: filtered,
+                lastUpdated: new Date().toISOString(),
+                error: null,
+              });
+              return;
+            }
+          }
+        }
+      } catch (e) {
+        console.log("Error:", e.message);
+      }
+
+      setTransportData(prev => ({ ...prev, error: "Kunde inte hämta busstider" }));
     };
 
     fetchTransport();
+    const interval = setInterval(fetchTransport, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
