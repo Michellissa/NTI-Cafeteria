@@ -244,7 +244,7 @@ body {
   background: var(--color-card-bg);
   border-radius: 4px;
   box-shadow: var(--shadow-card);
-  height: 100%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   border-top: 5px solid var(--color-accent);
@@ -701,7 +701,7 @@ body {
 
 .bubble {
   position: absolute;
-  bottom: -50px;
+  top: -100px;
   background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
   border-radius: 50%;
   animation: fall 8s linear infinite;
@@ -733,7 +733,7 @@ body {
     opacity: 0.8;
   }
   100% {
-    transform: translateY(100vh) rotate(360deg);
+    transform: translateY(calc(100vh + 100px)) rotate(360deg);
     opacity: 0;
   }
 }
