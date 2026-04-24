@@ -516,19 +516,17 @@ function TransportModule({ data }) {
 
 function AdminNewsModule({ data }) {
   const allNews = data?.news || [];
-  const latestNews = allNews[allNews.length - 1];
+  const latestNews = allNews.length > 0 
+    ? allNews[allNews.length - 1]
+    : { title: "Välkommen till NTI Södertörn", text: "Här visas skolnyheter från administratörer." };
   
   return (
     <div className="module">
       <h2 className="module-title">Skolnyheter</h2>
-      {latestNews ? (
-        <div className="admin-news-content">
-          <h3 className="admin-news-title">{latestNews.title}</h3>
-          <p className="admin-news-text">{latestNews.text}</p>
-        </div>
-      ) : (
-        <p className="no-data">Inga nyheter</p>
-      )}
+      <div className="admin-news-content">
+        <h3 className="admin-news-title">{latestNews.title}</h3>
+        <p className="admin-news-text">{latestNews.text}</p>
+      </div>
     </div>
   );
 }
