@@ -533,18 +533,21 @@ function AdminNewsModule({ data }) {
         </div>
       )}
       {sickTeachers.length > 0 && (
-        <div className="sick-section">
-          <h3 className="sick-title">Sjukfrånvaro</h3>
-          <ul className="sick-list">
-            {sickTeachers.map((teacher) => (
-              <li key={teacher.name} className="sick-item">
-                {teacher.name}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <>
+          <hr className="sick-divider" />
+          <div className="sick-section">
+            <h4 className="sick-title">Sjukfrånvaro</h4>
+            <div className="sick-tags">
+              {sickTeachers.map((teacher) => (
+                <span key={teacher.name} className="sick-tag">
+                  {teacher.name}
+                </span>
+              ))}
+            </div>
+          </div>
+        </>
       )}
-      {!latestNews && sickTeachers.length === 0 && (
+      {(!latestNews || sickTeachers.length === 0) && (
         <p className="no-data">Ingen info just nu</p>
       )}
     </div>

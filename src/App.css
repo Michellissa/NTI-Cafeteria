@@ -963,11 +963,34 @@ body {
 }
 
 .sick-title {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: #c00;
+  color: var(--color-primary-dark);
   text-transform: uppercase;
   margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.sick-divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 1rem 0 0.75rem 0;
+}
+
+.sick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sick-tag {
+  padding: 0.25rem 0.6rem;
+  background: rgba(177, 6, 140, 0.15);
+  color: var(--color-primary);
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.85;
 }
 
 .no-data {
