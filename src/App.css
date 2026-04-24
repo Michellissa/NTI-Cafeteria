@@ -956,6 +956,20 @@ body {
   line-height: 1.4;
 }
 
+.sick-section {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.sick-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #c00;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
 .no-data {
   color: #888;
   font-style: italic;

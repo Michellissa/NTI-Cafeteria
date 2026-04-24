@@ -328,10 +328,6 @@ function App() {
           </section>
 
           <section className="column column-news">
-            <NewsModule data={newsData} />
-          </section>
-
-          <section className="column column-admin-news">
             <AdminNewsModule data={adminData} />
           </section>
 
@@ -341,10 +337,6 @@ function App() {
 
           <section className="column column-transport">
             <TransportModule data={transportData} />
-          </section>
-
-          <section className="column column-admin-sick">
-            <AdminSickModule data={adminData} />
           </section>
         </main>
       </div>
@@ -524,36 +516,31 @@ function TransportModule({ data }) {
 
 function AdminNewsModule({ data }) {
   const latestNews = data?.news?.[data.news.length - 1];
+  const sickTeachers = data?.teachers?.filter((t) => t.isSick) || [];
+  
   return (
     <div className="module">
       <h2 className="module-title">Skolnyheter</h2>
-      {latestNews ? (
+      {latestNews && (
         <div className="admin-news-content">
           <h3 className="admin-news-title">{latestNews.title}</h3>
           <p className="admin-news-text">{latestNews.text}</p>
         </div>
-      ) : (
-        <p className="no-data">Inga nyheter</p>
       )}
-    </div>
-  );
-}
-
-function AdminSickModule({ data }) {
-  const sickTeachers = data?.teachers?.filter((t) => t.isSick) || [];
-  return (
-    <div className="module">
-      <h2 className="module-title">Sjukfrånvaro</h2>
-      {sickTeachers.length > 0 ? (
-        <ul className="sick-list">
-          {sickTeachers.map((teacher) => (
-            <li key={teacher.name} className="sick-item">
-              {teacher.name}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="no-data">Inga lärare sjuka</p>
+      {sickTeachers.length > 0 && (
+        <div className="sick-section">
+          <h3 className="sick-title">Sjukfrånvaro</h3>
+          <ul className="sick-list">
+            {sickTeachers.map((teacher) => (
+              <li key={teacher.name} className="sick-item">
+                {teacher.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {!latestNews && sickTeachers.length === 0 && (
+        <p className="no-data">Ingen info just nu</p>
       )}
     </div>
   );
