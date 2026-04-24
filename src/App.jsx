@@ -109,6 +109,8 @@ function App() {
     error: null,
   });
 
+  const [adminData, setAdminData] = useState({ news: [], teachers: [] });
+
   useEffect(() => {
     const fetchWeatherData = async () => {
       try {
@@ -295,6 +297,21 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const fetchAdminData = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/api/data");
+        const data = await res.json();
+        setAdminData(data);
+      } catch (e) {
+        console.log("Admin data error:", e);
+      }
+    };
+    fetchAdminData();
+    const interval = setInterval(fetchAdminData, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <MovingBackground />
@@ -314,12 +331,20 @@ function App() {
             <NewsModule data={newsData} />
           </section>
 
+          <section className="column column-admin-news">
+            <AdminNewsModule data={adminData} />
+          </section>
+
           <section className="column column-meals">
             <SchoolMealsModule data={mealData} selectedDay={selectedMealDay} />
           </section>
 
           <section className="column column-transport">
             <TransportModule data={transportData} />
+          </section>
+
+          <section className="column column-admin-sick">
+            <AdminSickModule data={adminData} />
           </section>
         </main>
       </div>
@@ -492,6 +517,43 @@ function TransportModule({ data }) {
             minute: "2-digit",
           })}
         </div>
+      )}
+    </div>
+  );
+}
+
+function AdminNewsModule({ data }) {
+  const latestNews = data?.news?.[data.news.length - 1];
+  return (
+    <div className="module">
+      <h2 className="module-title">Skolnyheter</h2>
+      {latestNews ? (
+        <div className="admin-news-content">
+          <h3 className="admin-news-title">{latestNews.title}</h3>
+          <p className="admin-news-text">{latestNews.text}</p>
+        </div>
+      ) : (
+        <p className="no-data">Inga nyheter</p>
+      )}
+    </div>
+  );
+}
+
+function AdminSickModule({ data }) {
+  const sickTeachers = data?.teachers?.filter((t) => t.isSick) || [];
+  return (
+    <div className="module">
+      <h2 className="module-title">Sjukfrånvaro</h2>
+      {sickTeachers.length > 0 ? (
+        <ul className="sick-list">
+          {sickTeachers.map((teacher) => (
+            <li key={teacher.name} className="sick-item">
+              {teacher.name}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="no-data">Inga lärare sjuka</p>
       )}
     </div>
   );

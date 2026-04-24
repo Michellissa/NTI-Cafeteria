@@ -1,0 +1,8 @@
+{
+  "news": [],
+  "teachers": [
+    { "name": "Mats", "isSick": false },
+    { "name": "Eva", "isSick": false },
+    { "name": "Johan", "isSick": false }
+  ]
+}
