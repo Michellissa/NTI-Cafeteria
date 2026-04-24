@@ -50,12 +50,12 @@ function Bubbles() {
 
   useEffect(() => {
     const generateBubbles = () => {
-      const newBubbles = Array.from({ length: 15 }, (_, i) => ({
+      const newBubbles = Array.from({ length: 30 }, (_, i) => ({
         id: i,
         left: Math.random() * 100,
-        size: Math.random() * 20 + 10,
-        duration: Math.random() * 10 + 10,
-        delay: Math.random() * 10,
+        size: Math.random() * 40 + 30,
+        duration: Math.random() * 8 + 8,
+        delay: Math.random() * 15,
       }));
       setBubbles(newBubbles);
     };
