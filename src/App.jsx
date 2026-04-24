@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 
-const TRANSPORT_API_KEY = import.meta.env.VITE_TRANSPORT_API_KEY;
-const TRANSPORT_SITE_ID = import.meta.env.VITE_TRANSPORT_SITE_ID;
+const TRANSPORT_API_KEY = "9c4ec98e1f5242f1be14e1b111e1ed77";
+const TRANSPORT_SITE_ID = "9522";
 
 const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
