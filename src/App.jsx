@@ -329,9 +329,6 @@ function App() {
 
           <section className="column column-news">
             <NewsModule data={newsData} />
-          </section>
-
-          <section className="column column-admin">
             <AdminNewsModule data={adminData} />
           </section>
 
@@ -519,7 +516,8 @@ function TransportModule({ data }) {
 }
 
 function AdminNewsModule({ data }) {
-  const latestNews = data?.news?.[data.news.length - 1];
+  const allNews = data?.news || [];
+  const latestNews = allNews[allNews.length - 1];
   const sickTeachers = data?.teachers?.filter((t) => t.isSick) || [];
   
   return (
