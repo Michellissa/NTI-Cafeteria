@@ -208,10 +208,8 @@ function App() {
 
 useEffect(() => {
     const fetchTransport = async () => {
-      const LOCAL_PROXY = "http://localhost:3000/api/sl";
-      
       try {
-        const response = await fetch(LOCAL_PROXY);
+        const response = await fetch('/api/sl');
         const data = await response.json();
 
         if (data?.ResponseData?.Buses?.length > 0) {
@@ -238,7 +236,7 @@ useEffect(() => {
 
       setTransportData((prev) => ({
         ...prev,
-        error: "Starta proxy-server först: node proxy-server.cjs",
+        error: "Starta först: node proxy-server.cjs",
       }));
     };
 
