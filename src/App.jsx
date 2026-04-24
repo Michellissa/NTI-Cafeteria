@@ -291,9 +291,10 @@ useEffect(() => {
   }, []);
 
   return (
-    <div className="dashboard">
+    <>
       <Bubbles />
-      <header className="dashboard-header">
+      <div className="dashboard">
+        <header className="dashboard-header">
         <h1 className="header-title">NTI Södertörn</h1>
         <Clock />
       </header>
@@ -316,6 +317,7 @@ useEffect(() => {
         </section>
       </main>
     </div>
+    </>
   );
 }
 
