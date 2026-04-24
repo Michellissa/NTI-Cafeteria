@@ -956,6 +956,62 @@ body {
   line-height: 1.4;
 }
 
+.sick-leave-section {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background: #e6e6e6;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 0.75rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  margin-bottom: -1rem;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.sick-leave-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.sick-leave-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sick-leave-item {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  padding: 0.25rem 0;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.sick-leave-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background: var(--color-primary);
+  border-radius: 50%;
+}
+
+.sick-leave-empty {
+  font-size: 0.85rem;
+  color: #888;
+  font-style: italic;
+}
+
 .sick-section {
   margin-top: 1.5rem;
   padding-top: 1rem;

@@ -519,6 +519,7 @@ function AdminNewsModule({ data }) {
   const latestNews = allNews.length > 0 
     ? allNews[allNews.length - 1]
     : { title: "Välkommen till NTI Södertörn", text: "Här visas skolnyheter från administratörer." };
+  const sickTeachers = data?.teachers?.filter((t) => t.isSick) || [];
   
   return (
     <div className="module">
@@ -526,6 +527,20 @@ function AdminNewsModule({ data }) {
       <div className="admin-news-content">
         <h3 className="admin-news-title">{latestNews.title}</h3>
         <p className="admin-news-text">{latestNews.text}</p>
+      </div>
+      <div className="sick-leave-section">
+        <h4 className="sick-leave-title">FRÅNVARANDE PERSONAL</h4>
+        {sickTeachers.length > 0 ? (
+          <ul className="sick-leave-list">
+            {sickTeachers.map((teacher) => (
+              <li key={teacher.name} className="sick-leave-item">
+                {teacher.name}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="sick-leave-empty">Ingen rapporterad frånvaro idag</p>
+        )}
       </div>
     </div>
   );
