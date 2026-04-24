@@ -220,33 +220,19 @@ useEffect(() => {
           const deps = data?.departures || [];
           console.log('Departures:', deps.length);
 
-          if (deps.length > 0) {
-            const allLines = deps.map(d => ({
-              des: d.line?.designation,
-              name: d.line?.name,
-              obj: d.line
+if (deps.length > 0) {
+            // Show ALL departures first (no filter)
+            const allBuses = deps.slice(0, 15).map(d => ({
+              lineNumber: d.line?.designation || d.line?.name || d.line?.TransportMode || '?',
+              destination: d.destination || d.direction || '?',
+              plannedTime: (d.aimedArrival || d.scheduled || '').substring(11, 16) || '?',
+              status: d.state === 'REAL_TIME' ? 'On-Time' : 'Expected',
             }));
-            console.log('Full line objects:', JSON.stringify(allLines.slice(0, 3), null, 2));
-            
-            const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
-            
-            const filtered = deps
-              .filter(d => {
-                const lineNum = d.line?.designation || d.line?.name || '';
-                return importantLines.some(l => lineNum.includes(l));
-              })
-              .slice(0, 15)
-              .map(d => ({
-                lineNumber: d.line?.designation || d.line?.name || '?',
-                destination: d.destination || d.direction || '?',
-                plannedTime: (d.aimedArrival || d.scheduled || '').substring(11, 16),
-                status: d.state === 'REAL_TIME' ? 'On-Time' : 'Expected',
-              }));
 
-            console.log('Filtered:', filtered.length, filtered.map(b => b.lineNumber));
+            console.log('Showing all:', allBuses.length, 'buses');
 
             setTransportData({
-              busDepartures: filtered,
+              busDepartures: allBuses,
               lastUpdated: new Date().toISOString(),
               error: null,
             });
