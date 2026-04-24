@@ -221,7 +221,8 @@ useEffect(() => {
           console.log('Departures:', deps.length);
 
           if (deps.length > 0) {
-            console.log('Sample departure:', JSON.stringify(deps[0], null, 2));
+            const allLines = deps.map(d => d.line?.designation || d.line?.name || '?').filter((v,i,a)=>a.indexOf(v)===i);
+            console.log('All lines:', allLines.slice(0, 15));
             
             const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
             
