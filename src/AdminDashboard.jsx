@@ -103,17 +103,15 @@ export default function AdminDashboard() {
           {loading ? (
             <p>Laddar...</p>
           ) : (
-            <div className="teacher-list">
+            <div className="teacher-grid">
               {teachers.map((teacher) => (
-                <div key={teacher.name} className="teacher-item">
-                  <span className={teacher.isSick ? "sick" : ""}>
-                    {teacher.name}
-                  </span>
+                <div key={teacher.name} className={`teacher-card ${teacher.isSick ? "sick" : ""}`}>
+                  <span className="teacher-name">{teacher.name}</span>
                   <button
                     onClick={() => toggleTeacher(teacher.name)}
-                    className={`toggle-btn ${teacher.isSick ? "active" : ""}`}
+                    className={`checkbox-btn ${teacher.isSick ? "active" : ""}`}
                   >
-                    {teacher.isSick ? "Sjuk" : "Frisk"}
+                    {teacher.isSick ? "Frånvarande" : "Närvarande"}
                   </button>
                 </div>
               ))}
