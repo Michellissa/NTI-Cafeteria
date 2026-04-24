@@ -20,6 +20,14 @@
   --border-highlight: 3px solid var(--color-primary);
 }
 
+body {
+  background-color: var(--color-primary);
+}
+
+body {
+  background-color: var(--color-primary);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -362,7 +370,7 @@ body {
   background: var(--color-accent);
   color: white;
   border-color: var(--color-accent);
-  box-shadow: 0 0 10px rgba(184, 151, 99, 0.4);
+  box-shadow: 0 0 10px rgba(75, 0, 130, 0.4);
 }
 
 .meal-content {
@@ -515,6 +523,14 @@ body {
   text-align: right;
   margin-top: auto;
   padding: 1rem 2rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.transport-stop-info {
+  font-size: 0.75rem;
+  color: #888;
+  text-align: center;
+  padding: 0.5rem 2rem;
   border-top: 1px solid #e0e0e0;
 }
 
