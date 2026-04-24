@@ -217,30 +217,33 @@ useEffect(() => {
         
         if (response.ok) {
           const data = await response.json();
-          console.log('Trafiklab response:', data?.departures?.length || 0, 'departures');
+          const deps = data?.departures || [];
+          console.log('Departures:', deps.length);
 
-          if (data?.departures?.length > 0) {
+          if (deps.length > 0) {
             const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
             
-            const filteredBuses = data.departures
-              .filter(bus => importantLines.includes(bus.line?.designation || bus.line?.TransportMode === 'BUS'))
+            const filtered = deps
+              .filter(d => {
+                const lineNum = d.line?.designation || d.line?.name || '';
+                return importantLines.some(l => lineNum.includes(l));
+              })
               .slice(0, 15)
-              .map(bus => ({
-                lineNumber: bus.line?.designation || bus.line?.name || '?',
-                destination: bus.destination || '?',
-                plannedTime: bus.aimedArrival ? bus.aimedArrival.substring(11, 16) : bus.scheduled?.substring(11, 16) || '?',
-                status: bus.state === 'REAL_TIME' ? 'On-Time' : 'Expected',
+              .map(d => ({
+                lineNumber: d.line?.designation || d.line?.name || '?',
+                destination: d.destination || d.direction || '?',
+                plannedTime: (d.aimedArrival || d.scheduled || '').substring(11, 16),
+                status: d.state === 'REAL_TIME' ? 'On-Time' : 'Expected',
               }));
 
+            console.log('Filtered:', filtered.length, filtered.map(b => b.lineNumber));
+
             setTransportData({
-              busDepartures: filteredBuses,
+              busDepartures: filtered,
               lastUpdated: new Date().toISOString(),
               error: null,
             });
-            console.log("Trafiklab Works! Buses:", filteredBuses.length);
             return;
-          } else if (data?.error) {
-            console.log("Trafiklab Error:", data.error);
           }
         }
       } catch (e) {
