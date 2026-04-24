@@ -580,9 +580,10 @@ body {
 .bubble {
   position: absolute;
   bottom: -20px;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), rgba(177, 6, 140, 0.3));
   border-radius: 50%;
   animation: fall linear infinite;
+  box-shadow: 0 0 10px rgba(177, 6, 140, 0.4);
 }
 
 @keyframes fall {
