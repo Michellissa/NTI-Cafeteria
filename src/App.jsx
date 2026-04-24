@@ -217,21 +217,28 @@ useEffect(() => {
           console.log('Total departures:', deps.length);
 
           if (deps.length > 0) {
-            // Show all departures with line and mode
-            const all = deps.slice(0, 15).map(d => ({
-              lineNumber: d.line?.designation || '?',
-              mode: d.line?.transport_mode || '?',
-              destination: d.destination || '?',
-              plannedTime: d.display || '?',
-              status: d.realtime ? 'On-Time' : 'Expected'
-            }));
-            console.log('All departures:', JSON.stringify(all, null, 2));
+            // Filter only buses
+            const onlyBuses = deps.filter(d => d.line?.transport_mode === 'BUS');
+            
+            // Important lines for Huddinge Sjukhus
+            const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
+            
+            const filtered = onlyBuses
+              .filter(d => importantLines.includes(d.line?.designation))
+              .slice(0, 15)
+              .map(d => ({
+                lineNumber: d.line?.designation || '?',
+                destination: d.destination || '?',
+                plannedTime: d.display || '?',
+                status: d.realtime ? 'On-Time' : 'Expected'
+              }));
 
             setTransportData({
-              busDepartures: all,
+              busDepartures: filtered,
               lastUpdated: new Date().toISOString(),
               error: null,
             });
+            console.log('Huddinge Sjukhus buses:', filtered.length);
             return;
           }
         }
