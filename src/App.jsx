@@ -30,6 +30,21 @@ function Clock() {
   return <div className="header-clock">{time}</div>;
 }
 
+function MovingBackground() {
+  return (
+    <div className="moving-background">
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+    </div>
+  );
+}
+
 function Bubbles() {
   const [bubbles, setBubbles] = useState([]);
 
@@ -292,6 +307,7 @@ useEffect(() => {
 
   return (
     <>
+      <MovingBackground />
       <Bubbles />
       <div className="dashboard">
         <header className="dashboard-header">

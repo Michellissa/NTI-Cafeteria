@@ -41,6 +41,128 @@ body {
   overflow: hidden;
 }
 
+.moving-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  background: linear-gradient(34deg, #4B0082 1%, #B1068C 56%);
+  overflow: hidden;
+}
+
+.moving-circle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  filter: blur(50px);
+}
+
+.moving-circle:nth-child(1) {
+  width: 400px;
+  height: 400px;
+  top: 10%;
+  left: 15%;
+  animation: float1 20s ease-in-out infinite;
+}
+
+.moving-circle:nth-child(2) {
+  width: 300px;
+  height: 300px;
+  top: 60%;
+  left: 70%;
+  animation: float2 25s ease-in-out infinite;
+}
+
+.moving-circle:nth-child(3) {
+  width: 250px;
+  height: 250px;
+  top: 40%;
+  left: 30%;
+  animation: float3 22s ease-in-out infinite;
+}
+
+.moving-circle:nth-child(4) {
+  width: 350px;
+  height: 350px;
+  top: 70%;
+  left: 20%;
+  animation: float4 18s ease-in-out infinite;
+}
+
+.moving-circle:nth-child(5) {
+  width: 200px;
+  height: 200px;
+  top: 20%;
+  left: 60%;
+  animation: float5 28s ease-in-out infinite;
+}
+
+.moving-circle:nth-child(6) {
+  width: 280px;
+  height: 280px;
+  top: 50%;
+  left: 45%;
+  animation: float6 24s ease-in-out infinite;
+}
+
+.moving-circle:nth-child(7) {
+  width: 320px;
+  height: 320px;
+  top: 80%;
+  left: 50%;
+  animation: float7 21s ease-in-out infinite;
+}
+
+.moving-circle:nth-child(8) {
+  width: 180px;
+  height: 180px;
+  top: 30%;
+  left: 80%;
+  animation: float8 26s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30px, 40px); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-40px, 30px); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -30px); }
+}
+
+@keyframes float4 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-25px, -40px); }
+}
+
+@keyframes float5 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(35px, 25px); }
+}
+
+@keyframes float6 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-30px, 35px); }
+}
+
+@keyframes float7 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(40px, -25px); }
+}
+
+@keyframes float8 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-20px, 30px); }
+}
+
 #root,
 .dashboard {
   width: 100vw;
@@ -76,7 +198,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: var(--color-gradient);
+  background: var(--color-primary);
   border-bottom: 3px solid var(--color-primary);
   flex-shrink: 0;
   
