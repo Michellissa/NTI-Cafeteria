@@ -32,47 +32,71 @@ app.get('/api/sites', async (req, res) => {
   }
 });
 
-// Try to find correct site
-app.get('/api/sl', async (req, res) => {
-  console.log('Searching for correct Huddinge site...');
+// Find site by name
+app.get('/api/site/:name', async (req, res) => {
+  const searchName = req.params.name;
+  console.log('Searching for:', searchName);
+  
   try {
-    // First find the site
-    const sitesResponse = await axios.get(`${BASE_URL}/sites`, {
-      params: { filter: 'Huddinge sjukhus' },
+    const response = await axios.get(`${BASE_URL}/sites`, {
+      params: { filter: searchName },
       timeout: 10000
     });
     
-    const sites = sitesResponse.data?.sites || [];
-    const huddinge = sites.find(s => s.name?.toLowerCase().includes('sjukhus'));
+    const sites = response.data?.sites || [];
+    sites.forEach(s => console.log(`Site: ${s.siteId} - ${s.name}`));
     
-    console.log('Found:', huddinge?.name, 'ID:', huddinge?.siteId);
-    
-    // Use found site or try known IDs
-    const siteIds = [huddinge?.siteId, 9522, 9521, 9523];
-    let departures = [];
+    res.json({ sites });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Find and return departures from correct Huddinge site
+app.get('/api/sl', async (req, res) => {
+  console.log('Finding Huddinge Sjukhus site...');
+  try {
+    // Try different search terms
+    const searches = ['Huddinge sjukhus', 'Huddinge', 'Södertörns'];
     let foundSite = null;
+    let allSites = [];
     
-    for (const siteId of siteIds.filter(Boolean)) {
+    for (const search of searches) {
       try {
-        const depResponse = await axios.get(`${BASE_URL}/sites/${siteId}/departures`, {
-          params: { timelimit: 60 },
-          timeout: 10000
+        const response = await axios.get(`${BASE_URL}/sites`, {
+          params: { filter: search },
+          timeout: 5000
         });
         
-        const deps = depResponse.data?.departures || [];
-        const buses = deps.filter(d => d.line?.transport_mode === 'BUS');
+        const sites = response.data?.sites || [];
+        allSites.push(...sites);
         
-        console.log(`Site ${siteId}: ${deps.length} total, ${buses.length} buses`);
+        const match = sites.find(s => 
+          s.name?.toLowerCase().includes('huddinge') && 
+          s.name?.toLowerCase().includes('sjukhus')
+        );
         
-        if (buses.length > 0 && !foundSite) {
-          departures = buses;
-          foundSite = siteId;
+        if (match && !foundSite) {
+          foundSite = match;
         }
-      } catch (e) {}
+      } catch {}
     }
     
-    console.log('Using site:', foundSite, 'buses:', departures.length);
-    res.json({ departures: departures.slice(0, 20), siteId: foundSite });
+    console.log('All sites:', allSites.map(s => `${s.siteId}: ${s.name}`).join(', '));
+    console.log('Found:', foundSite?.name, 'ID:', foundSite?.siteId);
+    
+    // Use found site
+    const siteId = foundSite?.siteId || 9522;
+    
+    const depResponse = await axios.get(`${BASE_URL}/sites/${siteId}/departures`, {
+      params: { timelimit: 60 },
+      timeout: 10000
+    });
+    
+    res.json({ 
+      departures: depResponse.data?.departures || [],
+      site: foundSite 
+    });
   } catch (error) {
     console.log('Error:', error.message);
     res.status(500).json({ error: error.message });

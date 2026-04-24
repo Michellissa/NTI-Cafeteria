@@ -222,7 +222,8 @@ useEffect(() => {
               lineNumber: d.line?.designation || '?',
               mode: d.line?.transport_mode || '?',
               destination: d.destination || '?',
-              display: d.display || '?'
+              plannedTime: d.display || '?',
+              status: d.realtime ? 'On-Time' : 'Expected'
             }));
             console.log('All departures:', JSON.stringify(all, null, 2));
 
