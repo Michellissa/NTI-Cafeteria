@@ -19,7 +19,7 @@ function Clock() {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
-        }),
+        })
       );
     };
     updateClock();
@@ -28,6 +28,42 @@ function Clock() {
   }, []);
 
   return <div className="header-clock">{time}</div>;
+}
+
+function Bubbles() {
+  const [bubbles, setBubbles] = useState([]);
+
+  useEffect(() => {
+    const generateBubbles = () => {
+      const newBubbles = Array.from({ length: 15 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        size: Math.random() * 20 + 10,
+        duration: Math.random() * 10 + 10,
+        delay: Math.random() * 10,
+      }));
+      setBubbles(newBubbles);
+    };
+    generateBubbles();
+  }, []);
+
+  return (
+    <div className="bubbles-container">
+      {bubbles.map((b) => (
+        <div
+          key={b.id}
+          className="bubble"
+          style={{
+            left: `${b.left}%`,
+            width: b.size,
+            height: b.size,
+            animationDuration: `${b.duration}s`,
+            animationDelay: `${b.delay}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
 }
 
 function App() {
@@ -256,6 +292,7 @@ useEffect(() => {
 
   return (
     <div className="dashboard">
+      <Bubbles />
       <header className="dashboard-header">
         <h1 className="header-title">NTI Södertörn</h1>
         <Clock />
