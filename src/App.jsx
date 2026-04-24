@@ -516,18 +516,29 @@ function TransportModule({ data }) {
 
 function AdminNewsModule({ data }) {
   const allNews = data?.news || [];
-  const latestNews = allNews.length > 0 
-    ? allNews[allNews.length - 1]
-    : { title: "Välkommen till NTI Södertörn", text: "Här visas skolnyheter från administratörer." };
   const sickTeachers = data?.teachers?.filter((t) => t.isSick) || [];
   
   return (
     <div className="module">
       <h2 className="module-title">Skolnyheter</h2>
-      <div className="admin-news-content">
-        <h3 className="admin-news-title">{latestNews.title}</h3>
-        <p className="admin-news-text">{latestNews.text}</p>
-      </div>
+      {allNews.length > 0 ? (
+        <div className="news-list">
+          {[...allNews].reverse().map((news, index) => (
+            <div key={index} className="news-item-admin">
+              <h3 className="news-item-title">{news.title}</h3>
+              <p className="news-item-text">{news.text}</p>
+              <span className="news-item-date">
+                {new Date(news.date).toLocaleDateString("sv-SE")}
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="admin-news-content">
+          <h3 className="admin-news-title">Välkommen till NTI Södertörn</h3>
+          <p className="admin-news-text">Här visas skolnyheter från administratörer.</p>
+        </div>
+      )}
       <div className="sick-leave-section">
         <h4 className="sick-leave-title">FRÅNVARANDE PERSONAL</h4>
         {sickTeachers.length > 0 ? (
