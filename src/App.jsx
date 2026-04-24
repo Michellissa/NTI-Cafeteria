@@ -217,37 +217,21 @@ useEffect(() => {
           console.log('Total departures:', deps.length);
 
           if (deps.length > 0) {
-            // FILTER 1: Only BUS (not trains)
-            const onlyBuses = deps.filter(d => d.transport_mode === 'BUS');
-            console.log('Bus departures:', onlyBuses.length);
+            // Show all departures with line and mode
+            const all = deps.slice(0, 15).map(d => ({
+              lineNumber: d.line?.designation || '?',
+              mode: d.line?.transport_mode || '?',
+              destination: d.destination || '?',
+              display: d.display || '?'
+            }));
+            console.log('All departures:', JSON.stringify(all, null, 2));
 
-            // FILTER 2: Only important lines from Huddinge Sjukhus
-            const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
-            
-            const filtered = onlyBuses
-              .filter(d => {
-                const lineNum = d.line?.designation || '';
-                return importantLines.some(l => lineNum === l);
-              })
-              .slice(0, 15)
-              .map(d => ({
-                lineNumber: d.line?.designation || '?',
-                destination: d.destination || '?',
-                plannedTime: d.display || (d.expected_arrival ? d.expected_arrival.substring(11, 16) : '?'),
-                status: d.realtime ? 'On-Time' : 'Expected',
-              }));
-
-            console.log('Filtered buses:', filtered.length);
-            console.log('Bus lines:', filtered.map(b => b.lineNumber).join(', '));
-
-            if (filtered.length > 0) {
-              setTransportData({
-                busDepartures: filtered,
-                lastUpdated: new Date().toISOString(),
-                error: null,
-              });
-              return;
-            }
+            setTransportData({
+              busDepartures: all,
+              lastUpdated: new Date().toISOString(),
+              error: null,
+            });
+            return;
           }
         }
       } catch (e) {
