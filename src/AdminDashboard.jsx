@@ -13,7 +13,7 @@ export default function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/data");
+      const res = await fetch("/api/data");
       const data = await res.json();
       setTeachers(data.teachers || []);
     } catch (e) {
@@ -27,7 +27,7 @@ export default function AdminDashboard() {
     if (!newsTitle || !newsText) return;
     setSaving(true);
     try {
-      await fetch("http://localhost:3000/api/data", {
+      await fetch("/api/data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -50,7 +50,7 @@ export default function AdminDashboard() {
     );
     setTeachers(updated);
     try {
-      await fetch("http://localhost:3000/api/data", {
+      await fetch("/api/data", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ teachers: updated }),
