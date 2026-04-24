@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       '/api/sl': {
         target: 'http://localhost:3000',
-        changeOrigin: false,
+        changeOrigin: true,
       },
     },
   },

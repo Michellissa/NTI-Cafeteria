@@ -209,43 +209,30 @@ function App() {
 useEffect(() => {
     const fetchTransport = async () => {
       try {
-        const proxies = [
-          'http://localhost:3000/api/sl',
-          '/api/sl',
-        ];
+        const response = await fetch('/api/sl');
+        
+        if (response.ok) {
+          const data = await response.json();
 
-        let data = null;
+          if (data?.ResponseData?.Buses?.length > 0) {
+            const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
+            const filteredBuses = data.ResponseData.Buses.filter((bus) =>
+              importantLines.includes(bus.LineNumber)
+            );
 
-        for (const url of proxies) {
-          try {
-            const response = await fetch(url);
-            if (response.ok) {
-              data = await response.json();
-              if (data) break;
-            }
-          } catch {
-            continue;
+            setTransportData({
+              busDepartures: filteredBuses.slice(0, 15).map((bus) => ({
+                lineNumber: bus.LineNumber,
+                destination: bus.Destination,
+                plannedTime: bus.DisplayTime,
+                status: bus.RealTimeHasBeenAnnounced ? "On-Time" : "Expected",
+              })),
+              lastUpdated: new Date().toISOString(),
+              error: null,
+            });
+            console.log("SL API Works! Buses:", filteredBuses.length);
+            return;
           }
-        }
-
-        if (data?.ResponseData?.Buses?.length > 0) {
-          const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
-          const filteredBuses = data.ResponseData.Buses.filter((bus) =>
-            importantLines.includes(bus.LineNumber)
-          );
-
-          setTransportData({
-            busDepartures: filteredBuses.slice(0, 15).map((bus) => ({
-              lineNumber: bus.LineNumber,
-              destination: bus.Destination,
-              plannedTime: bus.DisplayTime,
-              status: bus.RealTimeHasBeenAnnounced ? "On-Time" : "Expected",
-            })),
-            lastUpdated: new Date().toISOString(),
-            error: null,
-          });
-          console.log("SL API Works! Buses:", filteredBuses.length);
-          return;
         }
       } catch (e) {
         console.log("Error:", e.message);
