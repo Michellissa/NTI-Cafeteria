@@ -217,28 +217,30 @@ useEffect(() => {
         
         if (response.ok) {
           const data = await response.json();
-          console.log('Response status:', response.status, 'Data keys:', Object.keys(data));
+          console.log('Trafiklab response:', data?.departures?.length || 0, 'departures');
 
-          if (data?.ResponseData?.Buses?.length > 0) {
+          if (data?.departures?.length > 0) {
             const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
-            const filteredBuses = data.ResponseData.Buses.filter((bus) =>
-              importantLines.includes(bus.LineNumber)
-            );
+            
+            const filteredBuses = data.departures
+              .filter(bus => importantLines.includes(bus.line?.designation || bus.line?.TransportMode === 'BUS'))
+              .slice(0, 15)
+              .map(bus => ({
+                lineNumber: bus.line?.designation || bus.line?.name || '?',
+                destination: bus.destination || '?',
+                plannedTime: bus.aimedArrival ? bus.aimedArrival.substring(11, 16) : bus.scheduled?.substring(11, 16) || '?',
+                status: bus.state === 'REAL_TIME' ? 'On-Time' : 'Expected',
+              }));
 
             setTransportData({
-              busDepartures: filteredBuses.slice(0, 15).map((bus) => ({
-                lineNumber: bus.LineNumber,
-                destination: bus.Destination,
-                plannedTime: bus.DisplayTime,
-                status: bus.RealTimeHasBeenAnnounced ? "On-Time" : "Expected",
-              })),
+              busDepartures: filteredBuses,
               lastUpdated: new Date().toISOString(),
               error: null,
             });
-            console.log("SL API Works! Buses:", filteredBuses.length);
+            console.log("Trafiklab Works! Buses:", filteredBuses.length);
             return;
           } else if (data?.error) {
-            console.log("SL API Error:", data.error);
+            console.log("Trafiklab Error:", data.error);
           }
         }
       } catch (e) {

@@ -3,8 +3,9 @@ const axios = require('axios');
 
 const app = express();
 const PORT = 3000;
-const SL_API_KEY = '5455697ff26b484c8d9f6a94b0069a8d';
-const SITE_ID = '9522';
+
+// Using new Trafiklab SL Transport API - NO KEY NEEDED!
+const BASE_URL = 'https://transport.integration.sl.se/v1';
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -17,24 +18,23 @@ app.use((req, res, next) => {
 });
 
 app.get('/api/sl', async (req, res) => {
-  console.log('SL API called, key:', SL_API_KEY.substring(0, 8) + '...');
+  console.log('Trafiklab API called');
   try {
-    const response = await axios.get('https://api.sl.se/api2/realtimedeparturesV4.json', {
+    // SiteId 9522 = Huddinge Sjukhus
+    const response = await axios.get(`${BASE_URL}/sites/9522/departures`, {
       params: {
-        key: SL_API_KEY,
-        siteid: SITE_ID,
-        timewindow: 60
+        timelimit: 60
       },
-      timeout: 10000
+      timeout: 15000
     });
-    console.log('SL API success, buses:', response.data?.ResponseData?.Buses?.length || 0);
+    console.log('Trafiklab success:', response.data?.departures?.length || 0, 'departures');
     res.json(response.data);
   } catch (error) {
-    console.log('SL API error:', error.message);
-    res.status(500).json({ error: error.message, status: error.response?.status });
+    console.log('Trafiklab error:', error.message);
+    res.status(500).json({ error: error.message });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Proxy server running on http://localhost:${PORT}`);
+  console.log(`Proxy on http://localhost:${PORT} - using Trafiklab API`);
 });
