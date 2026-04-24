@@ -329,6 +329,9 @@ function App() {
 
           <section className="column column-news">
             <NewsModule data={newsData} />
+          </section>
+
+          <section className="column column-admin">
             <AdminNewsModule data={adminData} />
           </section>
 
