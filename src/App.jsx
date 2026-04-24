@@ -521,34 +521,17 @@ function TransportModule({ data }) {
 function AdminNewsModule({ data }) {
   const allNews = data?.news || [];
   const latestNews = allNews[allNews.length - 1];
-  const sickTeachers = data?.teachers?.filter((t) => t.isSick) || [];
   
   return (
     <div className="module">
       <h2 className="module-title">Skolnyheter</h2>
-      {latestNews && (
+      {latestNews ? (
         <div className="admin-news-content">
           <h3 className="admin-news-title">{latestNews.title}</h3>
           <p className="admin-news-text">{latestNews.text}</p>
         </div>
-      )}
-      {sickTeachers.length > 0 && (
-        <>
-          <hr className="sick-divider" />
-          <div className="sick-section">
-            <h4 className="sick-title">Sjukfrånvaro</h4>
-            <div className="sick-tags">
-              {sickTeachers.map((teacher) => (
-                <span key={teacher.name} className="sick-tag">
-                  {teacher.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-      {(!latestNews || sickTeachers.length === 0) && (
-        <p className="no-data">Ingen info just nu</p>
+      ) : (
+        <p className="no-data">Inga nyheter</p>
       )}
     </div>
   );
