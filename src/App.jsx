@@ -300,7 +300,7 @@ function App() {
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
-        const res = await fetch("/api/data");
+        const res = await fetch("http://localhost:3000/api/data");
         const data = await res.json();
         setAdminData(data);
       } catch (e) {

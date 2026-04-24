@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const API_URL = "http://localhost:3000";
+
 export default function AdminDashboard() {
   const [newsTitle, setNewsTitle] = useState("");
   const [newsText, setNewsText] = useState("");
@@ -13,7 +15,7 @@ export default function AdminDashboard() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("/api/data");
+      const res = await fetch(`${API_URL}/api/data`);
       const data = await res.json();
       setTeachers(data.teachers || []);
     } catch (e) {
@@ -27,11 +29,11 @@ export default function AdminDashboard() {
     if (!newsTitle || !newsText) return;
     setSaving(true);
     try {
-      const res = await fetch("/api/data");
+      const res = await fetch(`${API_URL}/api/data`);
       const data = await res.json();
       const existingNews = data.news || [];
       
-      await fetch("/api/data", {
+      await fetch(`${API_URL}/api/data`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -54,7 +56,7 @@ export default function AdminDashboard() {
     );
     setTeachers(updated);
     try {
-      await fetch("/api/data", {
+      await fetch(`${API_URL}/api/data`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ teachers: updated }),
