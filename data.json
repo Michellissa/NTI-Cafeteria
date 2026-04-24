@@ -1,8 +1,30 @@
 {
   "news": [],
   "teachers": [
-    { "name": "Mats", "isSick": false },
-    { "name": "Eva", "isSick": false },
-    { "name": "Johan", "isSick": false }
+    { "name": "Alam, Bondhon Shahriar", "isSick": false },
+    { "name": "Alexandersson, Niklas", "isSick": false },
+    { "name": "Antoun, Haidi", "isSick": false },
+    { "name": "Arvanitidis, Athanasios", "isSick": false },
+    { "name": "Berlin, Cecilia", "isSick": false },
+    { "name": "Bonnet, George", "isSick": false },
+    { "name": "Dahlberg, Jimmy", "isSick": false },
+    { "name": "Eriksson, Ingrid", "isSick": false },
+    { "name": "Issa, Alexandra", "isSick": false },
+    { "name": "Karlsson, Therese", "isSick": false },
+    { "name": "Klaasma, Susanne", "isSick": false },
+    { "name": "Komljenovic, Julia", "isSick": false },
+    { "name": "Leander, Erik", "isSick": false },
+    { "name": "Lundström, Anton", "isSick": false },
+    { "name": "Melander, Åsa", "isSick": false },
+    { "name": "Menon, Anna", "isSick": false },
+    { "name": "Nyland, Linnéa", "isSick": false },
+    { "name": "Pajukoski Soto, Alexander", "isSick": false },
+    { "name": "Panes, Edvard", "isSick": false },
+    { "name": "Prigorowsky, Nora", "isSick": false },
+    { "name": "Ringdahl, Andreas", "isSick": false },
+    { "name": "Rolfs, Kicki", "isSick": false },
+    { "name": "Sabino, Francisco", "isSick": false },
+    { "name": "Srisroi, Billy", "isSick": false },
+    { "name": "Vigneswaran, Vibacar", "isSick": false }
   ]
 }
