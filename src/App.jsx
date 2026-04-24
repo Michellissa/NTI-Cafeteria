@@ -209,8 +209,24 @@ function App() {
 useEffect(() => {
     const fetchTransport = async () => {
       try {
-        const response = await fetch('/api/sl');
-        const data = await response.json();
+        const proxies = [
+          'http://localhost:3000/api/sl',
+          '/api/sl',
+        ];
+
+        let data = null;
+
+        for (const url of proxies) {
+          try {
+            const response = await fetch(url);
+            if (response.ok) {
+              data = await response.json();
+              if (data) break;
+            }
+          } catch {
+            continue;
+          }
+        }
 
         if (data?.ResponseData?.Buses?.length > 0) {
           const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
@@ -228,15 +244,16 @@ useEffect(() => {
             lastUpdated: new Date().toISOString(),
             error: null,
           });
+          console.log("SL API Works! Buses:", filteredBuses.length);
           return;
         }
       } catch (e) {
-        console.log("Local proxy unavailable:", e.message);
+        console.log("Error:", e.message);
       }
 
       setTransportData((prev) => ({
         ...prev,
-        error: "Starta först: node proxy-server.cjs",
+        error: "Kunde inte hämta busstider",
       }));
     };
 
