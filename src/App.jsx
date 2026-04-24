@@ -221,6 +221,8 @@ useEffect(() => {
           console.log('Departures:', deps.length);
 
           if (deps.length > 0) {
+            console.log('Sample departure:', JSON.stringify(deps[0], null, 2));
+            
             const importantLines = ["172", "703", "704", "705", "713", "726", "740", "742", "865"];
             
             const filtered = deps
