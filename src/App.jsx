@@ -519,7 +519,7 @@ function AdminNewsModule({ data }) {
   const sickTeachers = data?.teachers?.filter((t) => t.isSick) || [];
   
   return (
-    <div className="module">
+    <div className="module admin-module">
       <h2 className="module-title">Skolnyheter</h2>
       {allNews.length > 0 ? (
         <div className="news-list">

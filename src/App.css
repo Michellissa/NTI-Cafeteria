@@ -293,6 +293,10 @@ body {
   display: flex;
   flex-direction: column;
   border-top: 5px solid var(--color-accent);
+  overflow: hidden;
+}
+
+.admin-module {
   overflow-y: auto;
 }
 
