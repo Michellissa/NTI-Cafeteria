@@ -1,6 +1,58 @@
 import { useState, useEffect } from "react";
+import "./App.css";
 
 const API_URL = "http://localhost:3000";
+
+function MovingBackground() {
+  return (
+    <div className="moving-background">
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+      <div className="moving-circle"></div>
+    </div>
+  );
+}
+
+function Bubbles() {
+  const [bubbles, setBubbles] = useState([]);
+
+  useEffect(() => {
+    const generateBubbles = () => {
+      const newBubbles = Array.from({ length: 30 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        size: Math.random() * 40 + 30,
+        duration: Math.random() * 8 + 8,
+        delay: Math.random() * 15,
+      }));
+      setBubbles(newBubbles);
+    };
+    generateBubbles();
+  }, []);
+
+  return (
+    <div className="bubbles-container">
+      {bubbles.map((b) => (
+        <div
+          key={b.id}
+          className="bubble"
+          style={{
+            left: `${b.left}%`,
+            width: b.size,
+            height: b.size,
+            animationDuration: `${b.duration}s`,
+            animationDelay: `${b.delay}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default function AdminDashboard() {
   const [newsTitle, setNewsTitle] = useState("");
@@ -67,7 +119,10 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="admin-dashboard">
+    <>
+      <MovingBackground />
+      <Bubbles />
+      <div className="admin-dashboard">
       <div className="admin-header">
         <h1>Admin Dashboard</h1>
       </div>
@@ -120,5 +175,6 @@ export default function AdminDashboard() {
         </div>
       </div>
     </div>
+    </>
   );
 }
