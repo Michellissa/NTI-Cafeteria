@@ -48,11 +48,7 @@ app.post('/api/data', (req, res) => {
   const newData = req.body;
   
   if (newData.news) {
-    if (Array.isArray(newData.news)) {
-      currentData.news = [...currentData.news, ...newData.news];
-    } else {
-      currentData.news = newData.news;
-    }
+    currentData.news = newData.news;
   }
   if (newData.teachers) currentData.teachers = newData.teachers;
   
