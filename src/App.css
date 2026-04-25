@@ -1050,18 +1050,9 @@ body {
 }
 
 .sick-leave-section {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  background: #e6e6e6;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-bottom: 0.75rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
-  margin-bottom: -1rem;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-top: 1px solid #ddd;
 }
 
 .sick-leave-title {
