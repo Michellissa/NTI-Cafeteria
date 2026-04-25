@@ -60,6 +60,7 @@ export default function AdminDashboard() {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [newsList, setNewsList] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -70,6 +71,7 @@ export default function AdminDashboard() {
       const res = await fetch(`${API_URL}/api/data`);
       const data = await res.json();
       setTeachers(data.teachers || []);
+      setNewsList(data.news || []);
     } catch (e) {
       console.error("Error:", e);
     } finally {
@@ -81,17 +83,13 @@ export default function AdminDashboard() {
     if (!newsTitle || !newsText) return;
     setSaving(true);
     try {
-      const res = await fetch(`${API_URL}/api/data`);
-      const data = await res.json();
-      const existingNews = data.news || [];
-      
+      const updated = [...newsList, { title: newsTitle, text: newsText, date: new Date().toISOString() }];
       await fetch(`${API_URL}/api/data`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          news: [...existingNews, { title: newsTitle, text: newsText, date: new Date().toISOString() }],
-        }),
+        body: JSON.stringify({ news: updated }),
       });
+      setNewsList(updated);
       setNewsTitle("");
       setNewsText("");
       alert("Nyhet sparad!");
@@ -99,6 +97,22 @@ export default function AdminDashboard() {
       alert("Fel vid sparande");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const deleteNews = async (index) => {
+    if (!confirm("Ta bort denna nyhet?")) return;
+    const updated = [...newsList];
+    updated.splice(index, 1);
+    setNewsList(updated);
+    try {
+      await fetch(`${API_URL}/api/data`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ news: updated }),
+      });
+    } catch (e) {
+      console.error("Error:", e);
     }
   };
 
@@ -130,6 +144,21 @@ export default function AdminDashboard() {
       <div className="admin-grid">
         <div className="admin-card">
           <h2>Skolnyheter</h2>
+          {newsList.length > 0 && (
+            <div className="news-list-admin">
+              {[...newsList].reverse().map((news, idx) => (
+                <div key={idx} className="news-item-admin">
+                  <div>
+                    <strong>{news.title}</strong>
+                    <p>{news.text}</p>
+                  </div>
+                  <button onClick={() => deleteNews(newsList.length - 1 - idx)} className="delete-btn">
+                    Ta bort
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
           <div className="form-group">
             <label>Rubrik</label>
             <input

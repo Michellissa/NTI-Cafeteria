@@ -14,20 +14,40 @@
       "title": "hur mår vi",
       "text": "tjena tjena",
       "date": "2026-04-24T23:40:35.389Z"
+    },
+    {
+      "title": "hej ",
+      "text": "funkar detta?",
+      "date": "2026-04-24T23:40:16.593Z"
+    },
+    {
+      "title": "hej ",
+      "text": "funkar detta?",
+      "date": "2026-04-24T23:40:16.593Z"
+    },
+    {
+      "title": "hur mår vi",
+      "text": "tjena tjena",
+      "date": "2026-04-24T23:40:35.389Z"
+    },
+    {
+      "title": "tjena tjena",
+      "text": "hej",
+      "date": "2026-04-25T11:57:44.906Z"
     }
   ],
   "teachers": [
     {
       "name": "Alam, Bondhon Shahriar",
-      "isSick": false
+      "isSick": true
     },
     {
       "name": "Alexandersson, Niklas",
-      "isSick": false
+      "isSick": true
     },
     {
       "name": "Antoun, Haidi",
-      "isSick": false
+      "isSick": true
     },
     {
       "name": "Arvanitidis, Athanasios",
