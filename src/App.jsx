@@ -308,7 +308,7 @@ function App() {
       }
     };
     fetchAdminData();
-    const interval = setInterval(fetchAdminData, 30000);
+    const interval = setInterval(fetchAdminData, 15000);
     return () => clearInterval(interval);
   }, []);
 
