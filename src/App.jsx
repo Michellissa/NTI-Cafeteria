@@ -146,6 +146,8 @@ function App() {
       }
     };
     fetchWeatherData();
+    const interval = setInterval(fetchWeatherData, 300000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -218,6 +220,8 @@ function App() {
       setMealData(mockMenu);
     };
     fetchMealData();
+    const interval = setInterval(fetchMealData, 300000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -306,7 +310,7 @@ function App() {
     };
 
     fetchTransport();
-    const interval = setInterval(fetchTransport, 60000);
+    const interval = setInterval(fetchTransport, 15000);
     return () => clearInterval(interval);
   }, []);
 
