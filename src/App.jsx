@@ -557,6 +557,84 @@ function TransportModule({ data }) {
   );
 }
 
+function WeatherMealsModule({ weatherData, mealData, selectedMealDay }) {
+  const { current, forecast } = weatherData;
+  const hourlyForecast = forecast.length > 0 ? forecast : [];
+
+  const getWeatherDescription = (condition) => {
+    const descriptions = {
+      "clear sky": "Klart",
+      "few clouds": "Delvis molnigt",
+      "scattered clouds": "Molnigt",
+      "broken clouds": "Molnigt",
+      "overcast clouds": "Mulet",
+      "light rain": "Lätt regn",
+      "moderate rain": "Regn",
+      "heavy rain": "Heavy rain",
+      "light snow": "Lätt snö",
+      snow: "Snö",
+      mist: "Dimma",
+      fog: "Dimma",
+      haze: "Disigt",
+    };
+    return descriptions[condition?.toLowerCase()] || condition || "Okänt";
+  };
+
+  const weekDays = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"];
+  const meals = mealData?.meals || {};
+  const selectedMeals = meals[selectedMealDay] || [];
+
+  return (
+    <div className="module">
+      <h2 className="module-title">Väder & Matsedel</h2>
+      
+      <div className="weather-current">
+        <h3 className="forecast-title">Huddinge</h3>
+        <div className="weather-main">
+          <span className="weather-temp">
+            {current.temp !== null ? `${current.temp}°C` : "--"}
+          </span>
+          <span className="weather-condition">
+            {current.condition ? getWeatherDescription(current.condition) : ""}
+          </span>
+        </div>
+        <div className="weather-details">
+          <div className="weather-detail">
+            <span className="detail-label">Luftfuktighet</span>
+            <span className="detail-value">
+              {current.humidity !== null ? `${current.humidity}%` : "--"}
+            </span>
+          </div>
+          <div className="weather-detail">
+            <span className="detail-label">Vind</span>
+            <span className="detail-value">
+              {current.windSpeed !== null ? `${current.windSpeed} m/s` : "--"}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="meal-day-info">
+        <div className="meal-day-title">{weekDays[selectedMealDay]}</div>
+        <div className="meal-content">
+          {selectedMeals.length > 0 ? (
+            selectedMeals.map((meal, index) => (
+              <div key={index} className="meal-category">
+                <span className="category-label">{meal.category}</span>
+                <span className="category-value">{meal.dish}</span>
+              </div>
+            ))
+          ) : (
+            <div className="meal-category">
+              <span className="category-value">Ingen matsedel</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AdminNewsModule({ data }) {
   const allNews = data?.news || [];
   const sickTeachers = data?.teachers?.filter((t) => t.isSick) || [];
