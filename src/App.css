@@ -280,16 +280,21 @@ body {
 
 .column {
   height: 100%;
+  min-height: 500px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
 .column-left,
+.column-center,
 .column-right {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  height: 100%;
+}
+
+.column-center .module {
   height: 100%;
 }
 
@@ -309,7 +314,7 @@ body {
   flex-direction: column;
   border-top: 5px solid var(--color-accent);
   overflow: hidden;
-  margin-bottom: 0.25rem;
+  flex: 1;
 }
 
 .module-stack {
