@@ -266,20 +266,36 @@ body {
 }
 
 /* ═══════════════════════════════════════
-   MAIN GRID - 4 KOLUMNER
+   MAIN GRID - 3 KOLUMNER
    ═══════════════════════════════════════ */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
   padding: 1rem 1.5rem;
   flex: 1;
   overflow: hidden;
+  align-items: stretch;
 }
 
 .column {
   height: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.column-left,
+.column-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  height: 100%;
+}
+
+.module-stack {
+  flex: 1;
+  min-height: 0;
 }
 
 /* ═══════════════════════════════════════
@@ -289,15 +305,30 @@ body {
   background: var(--color-card-bg);
   border-radius: 4px;
   box-shadow: var(--shadow-card);
-  height: 90%;
   display: flex;
   flex-direction: column;
   border-top: 5px solid var(--color-accent);
   overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+.module-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.module-stack .module {
+  flex: 1;
+  min-height: 0;
+  margin-bottom: 0;
 }
 
 .admin-module {
+  flex: 1;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .module-title {
@@ -308,6 +339,7 @@ body {
   letter-spacing: 1px;
   padding: 1rem 1.5rem;
   border-bottom: 1px solid #e0e0e0;
+  text-align: center;
 }
 
 /* ═══════════════════════════════════════
@@ -382,6 +414,7 @@ body {
   letter-spacing: 1px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
 }
 
@@ -598,6 +631,22 @@ body {
   padding: 1rem 2rem;
 }
 
+.transport-group-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 1rem 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid var(--color-primary);
+  text-align: center;
+}
+
+.transport-group-title:first-child {
+  margin-top: 0;
+}
+
 .transport-title {
   font-size: 0.85rem;
   font-weight: 700;
@@ -645,6 +694,10 @@ body {
   padding: 0.35rem 0.5rem;
   border-radius: 4px;
   min-width: 45px;
+}
+
+.transport-item.train-item .transport-line {
+  background: linear-gradient(135deg, #4B0082 0%, #6a1bb8 100%);
 }
 
 .transport-destination {

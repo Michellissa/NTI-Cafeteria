@@ -77,9 +77,9 @@ app.get('/api/sites', async (req, res) => {
 
 // Huddinge Sjukhus is site ID 7000
 app.get('/api/sl', async (req, res) => {
-  console.log('Fetching from Huddinge Sjukhus (site 7000)...');
+  console.log('Fetching from Flemingsberg station (site 7006)...');
   try {
-    const response = await axios.get(`${BASE_URL}/sites/7000/departures`, {
+    const response = await axios.get(`${BASE_URL}/sites/7006/departures`, {
       params: { timelimit: 60 },
       timeout: 15000
     });

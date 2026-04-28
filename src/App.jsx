@@ -105,6 +105,7 @@ function App() {
 
   const [transportData, setTransportData] = useState({
     busDepartures: [],
+    trainDepartures: [],
     lastUpdated: null,
     error: null,
   });
@@ -249,6 +250,10 @@ function App() {
             const onlyBuses = deps.filter(
               (d) => d.line?.transport_mode === "BUS",
             );
+            
+            const onlyTrains = deps.filter(
+              (d) => d.line?.transport_mode === "TRAIN",
+            );
 
             // Important lines for Huddinge Sjukhus
             const importantLines = [
@@ -272,13 +277,21 @@ function App() {
                 plannedTime: d.display || "?",
                 status: d.realtime ? "On-Time" : "Expected",
               }));
+            
+            const trainDeps = onlyTrains.slice(0, 10).map((d) => ({
+              lineNumber: d.line?.designation || "?",
+              destination: d.destination || "?",
+              plannedTime: d.display || "?",
+              status: d.realtime ? "On-Time" : "Expected",
+            }));
 
             setTransportData({
               busDepartures: filtered,
+              trainDepartures: trainDeps,
               lastUpdated: new Date().toISOString(),
               error: null,
             });
-            console.log("Huddinge Sjukhus buses:", filtered.length);
+            console.log("Flemingsberg buses:", filtered.length, "trains:", trainDeps.length);
             return;
           }
         }
@@ -323,19 +336,20 @@ function App() {
         </header>
 
         <main className="dashboard-grid">
-          <section className="column column-weather">
-            <WeatherModule data={weatherData} />
+          <section className="column column-left">
+            <div className="module-stack">
+              <WeatherModule data={weatherData} />
+            </div>
+            <div className="module-stack">
+              <SchoolMealsModule data={mealData} selectedDay={selectedMealDay} />
+            </div>
           </section>
 
-          <section className="column column-news">
+          <section className="column column-center">
             <AdminNewsModule data={adminData} />
           </section>
 
-          <section className="column column-meals">
-            <SchoolMealsModule data={mealData} selectedDay={selectedMealDay} />
-          </section>
-
-          <section className="column column-transport">
+          <section className="column column-right">
             <TransportModule data={transportData} />
           </section>
         </main>
@@ -468,37 +482,66 @@ function SchoolMealsModule({ data, selectedDay }) {
 }
 
 function TransportModule({ data }) {
-  const { busDepartures, lastUpdated, error } = data;
+  const { busDepartures, trainDepartures, lastUpdated, error } = data;
+  const trains = trainDepartures || [];
+  const buses = busDepartures || [];
 
   return (
     <div className="module">
-      <h2 className="module-title">Avgående bussar</h2>
+      <h2 className="module-title">Trafik</h2>
 
       {error && <div className="transport-error">{error}</div>}
 
       <div className="transport-section">
-        <ul className="transport-list">
-          {busDepartures.length > 0 ? (
-            busDepartures.map((bus, index) => (
-              <li key={index} className="transport-item">
-                <span className="transport-line">{bus.lineNumber}</span>
-                <span className="transport-destination">{bus.destination}</span>
-                <span className="transport-time">{bus.plannedTime}</span>
-                <span
-                  className={`transport-status status-${bus.status.toLowerCase().replace(" ", "-")}`}
-                >
-                  {bus.status}
-                </span>
-              </li>
-            ))
-          ) : (
+        {trains.length > 0 && (
+          <>
+            <div className="transport-group-title">Tåg</div>
+            <ul className="transport-list">
+              {trains.map((item, index) => (
+                <li key={`train-${index}`} className="transport-item train-item">
+                  <span className="transport-line">{item.lineNumber}</span>
+                  <span className="transport-destination">{item.destination}</span>
+                  <span className="transport-time">{item.plannedTime}</span>
+                  <span
+                    className={`transport-status status-${item.status.toLowerCase().replace(" ", "-")}`}
+                  >
+                    {item.status}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+
+        {buses.length > 0 && (
+          <>
+            <div className="transport-group-title">Buss</div>
+            <ul className="transport-list">
+              {buses.map((item, index) => (
+                <li key={`bus-${index}`} className="transport-item">
+                  <span className="transport-line">{item.lineNumber}</span>
+                  <span className="transport-destination">{item.destination}</span>
+                  <span className="transport-time">{item.plannedTime}</span>
+                  <span
+                    className={`transport-status status-${item.status.toLowerCase().replace(" ", "-")}`}
+                  >
+                    {item.status}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+
+        {buses.length === 0 && trains.length === 0 && (
+          <ul className="transport-list">
             <li className="transport-item">Inga avgångar</li>
-          )}
-        </ul>
+          </ul>
+        )}
       </div>
 
       <div className="transport-stop-info">
-        Hållplats: Huddinge Sjukhus / Södertörns högskola
+        Huddinge Sjukhus & Flemingsberg
       </div>
 
       {lastUpdated && (
