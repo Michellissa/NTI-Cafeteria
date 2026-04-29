@@ -254,7 +254,7 @@ function App() {
             const onlyBuses = deps.filter(
               (d) => d.line?.transport_mode === "BUS",
             );
-            
+
             const onlyTrains = deps.filter(
               (d) => d.line?.transport_mode === "TRAIN",
             );
@@ -281,7 +281,7 @@ function App() {
                 plannedTime: d.display || "?",
                 status: d.realtime ? "On-Time" : "Expected",
               }));
-            
+
             const trainDeps = onlyTrains.slice(0, 10).map((d) => ({
               lineNumber: d.line?.designation || "?",
               destination: d.destination || "?",
@@ -295,7 +295,12 @@ function App() {
               lastUpdated: new Date().toISOString(),
               error: null,
             });
-            console.log("Flemingsberg buses:", filtered.length, "trains:", trainDeps.length);
+            console.log(
+              "Flemingsberg buses:",
+              filtered.length,
+              "trains:",
+              trainDeps.length,
+            );
             return;
           }
         }
@@ -345,7 +350,10 @@ function App() {
               <WeatherModule data={weatherData} />
             </div>
             <div className="module-stack">
-              <SchoolMealsModule data={mealData} selectedDay={selectedMealDay} />
+              <SchoolMealsModule
+                data={mealData}
+                selectedDay={selectedMealDay}
+              />
             </div>
           </section>
 
@@ -393,7 +401,7 @@ function WeatherModule({ data }) {
       <div className="weather-current">
         <div className="weather-main">
           <span className="weather-temp">
-            {current.temp !== null ? `${current.temp}°C` : "--"}
+            {current.temp !== null ? `${Math.round(current.temp)}°C` : ""}
           </span>
           <span className="weather-condition">
             {current.condition ? getWeatherDescription(current.condition) : ""}
@@ -502,9 +510,14 @@ function TransportModule({ data }) {
             <div className="transport-group-title">Tåg</div>
             <ul className="transport-list">
               {trains.map((item, index) => (
-                <li key={`train-${index}`} className="transport-item train-item">
+                <li
+                  key={`train-${index}`}
+                  className="transport-item train-item"
+                >
                   <span className="transport-line">{item.lineNumber}</span>
-                  <span className="transport-destination">{item.destination}</span>
+                  <span className="transport-destination">
+                    {item.destination}
+                  </span>
                   <span className="transport-time">{item.plannedTime}</span>
                   <span
                     className={`transport-status status-${item.status.toLowerCase().replace(" ", "-")}`}
@@ -524,7 +537,9 @@ function TransportModule({ data }) {
               {buses.map((item, index) => (
                 <li key={`bus-${index}`} className="transport-item">
                   <span className="transport-line">{item.lineNumber}</span>
-                  <span className="transport-destination">{item.destination}</span>
+                  <span className="transport-destination">
+                    {item.destination}
+                  </span>
                   <span className="transport-time">{item.plannedTime}</span>
                   <span
                     className={`transport-status status-${item.status.toLowerCase().replace(" ", "-")}`}
@@ -544,9 +559,7 @@ function TransportModule({ data }) {
         )}
       </div>
 
-      <div className="transport-stop-info">
-        Huddinge Sjukhus & Flemingsberg
-      </div>
+      <div className="transport-stop-info">Huddinge Sjukhus & Flemingsberg</div>
 
       {lastUpdated && (
         <div className="transport-updated">
@@ -584,19 +597,27 @@ function WeatherMealsModule({ weatherData, mealData, selectedMealDay }) {
     return descriptions[condition?.toLowerCase()] || condition || "Okänt";
   };
 
-  const weekDays = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"];
+  const weekDays = [
+    "Måndag",
+    "Tisdag",
+    "Onsdag",
+    "Torsdag",
+    "Fredag",
+    "Lördag",
+    "Söndag",
+  ];
   const meals = mealData?.meals || {};
   const selectedMeals = meals[selectedMealDay] || [];
 
   return (
     <div className="module">
       <h2 className="module-title">Väder & Matsedel</h2>
-      
+
       <div className="weather-current">
         <h3 className="forecast-title">Huddinge</h3>
         <div className="weather-main">
           <span className="weather-temp">
-            {current.temp !== null ? `${current.temp}°C` : "--"}
+            {current.temp !== null ? `${current.temp}°` : "--"}
           </span>
           <span className="weather-condition">
             {current.condition ? getWeatherDescription(current.condition) : ""}
@@ -642,7 +663,7 @@ function WeatherMealsModule({ weatherData, mealData, selectedMealDay }) {
 function AdminNewsModule({ data }) {
   const allNews = data?.news || [];
   const sickTeachers = data?.teachers?.filter((t) => t.isSick) || [];
-  
+
   return (
     <div className="module admin-module">
       <h2 className="module-title">Skolnyheter</h2>
@@ -661,7 +682,9 @@ function AdminNewsModule({ data }) {
       ) : (
         <div className="admin-news-content">
           <h3 className="admin-news-title">Välkommen till NTI Södertörn</h3>
-          <p className="admin-news-text">Här visas skolnyheter från administratörer.</p>
+          <p className="admin-news-text">
+            Här visas skolnyheter från administratörer.
+          </p>
         </div>
       )}
       <div className="sick-leave-section">

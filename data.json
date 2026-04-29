@@ -1,23 +1,23 @@
 {
   "news": [
     {
-      "title": "hej ",
-      "text": "idag har vi samling i fotbollsplanen 21.00, detta är ibligatorisk för skolan och styrlesen ni som inte kommer får F i bonds och haidis ämnen",
-      "date": "2026-04-25T12:05:28.725Z"
+      "title": "NP ",
+      "text": "Daniella skiteri vad jag visar henne, hon fattar ingeting ",
+      "date": "2026-04-28T18:13:54.897Z"
     }
   ],
   "teachers": [
     {
       "name": "Alam, Bondhon Shahriar",
-      "isSick": true
+      "isSick": false
     },
     {
       "name": "Alexandersson, Niklas",
-      "isSick": true
+      "isSick": false
     },
     {
       "name": "Antoun, Haidi",
-      "isSick": true
+      "isSick": false
     },
     {
       "name": "Arvanitidis, Athanasios",
